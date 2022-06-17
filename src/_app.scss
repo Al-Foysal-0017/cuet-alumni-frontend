@@ -1,0 +1,93 @@
+.app__container {
+  display: flex;
+  min-height: 100vh;
+}
+
+a {
+  color: unset;
+  text-decoration: none;
+}
+
+li {
+  list-style-type: none;
+}
+
+hr {
+  opacity: 0.3;
+}
+
+.shadow-inner {
+  box-shadow: inset 0 0.3rem 3rem rgba(243, 240, 240, 0.1);
+}
+
+.logo-color {
+  color: #b2b2b2;
+}
+
+.styleTxt {
+  font-family: "Dancing Script", cursive;
+}
+
+.testPage {
+  // min-height: 100vh;
+  display: flex;
+  // align-items: center;
+  justify-content: center;
+  font-size: 96px;
+  font-weight: bolder;
+  letter-spacing: 2px;
+  color: #fff;
+  // font-family: "Source Serif Pro", serif;
+  // margin-top: -280px;
+}
+
+.mt-280 {
+  margin-top: -280px;
+}
+
+.mt1rem {
+  margin-top: 0.6rem;
+}
+@media (max-width: 1024px) {
+  .mt1rem {
+    margin-top: 0;
+  }
+}
+
+.bgWhite {
+  // background: rgba(255, 255, 255, 0.7);
+  background: rgba(0, 0, 0, 0.4);
+  height: fit-content;
+  padding: 2rem 4rem;
+  border-radius: 10px;
+}
+
+@media (max-width: 1024px) {
+  .testPage {
+    font-size: 64px;
+  }
+  .mt-280 {
+    margin-top: -270px;
+  }
+}
+
+@media (max-width: 640px) {
+  .testPage {
+    font-size: 48px;
+  }
+  .mt-280 {
+    margin-top: -270px;
+  }
+}
+
+@media (max-width: 450px) {
+  .testPage {
+    font-size: 32px;
+  }
+  .bgWhite {
+    padding: 2rem;
+  }
+  .mt-280 {
+    margin-top: -264px;
+  }
+}

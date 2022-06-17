@@ -1,0 +1,38 @@
+.NavigationContainer {
+  /* background: #000; */
+}
+
+/* lg:grid lg:grid-cols-5 relative overflow-hidden */
+.NavigationWrapper {
+  /* display: grid; */
+  position: relative;
+  overflow: hidden;
+}
+
+/* col-span-4 lg:px-8 lg:py-4 */
+.BodyNavigation {
+  /* display: grid; */
+}
+
+/* .gridCols5{
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+} */
+.colSpan4 {
+  grid-column: span 4 / span 4;
+}
+
+@media (min-width: 1241px) {
+  .translateForSidebarNeg {
+    --tw-translate-x: 0px;
+  }
+
+  .NavigationWrapper {
+    display: grid;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gridCols5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
