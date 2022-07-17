@@ -36,9 +36,9 @@ const OtpVerify = () => {
       })
     );
 
-    if (user?.number) {
-      navigate("/set/profile");
-    }
+    // if (user?.number) {
+    //   navigate("/set/profile");
+    // }
   };
   useEffect(() => {
     if (error) {
