@@ -2,19 +2,19 @@ import React, { useEffect, useState } from "react";
 import Container from "../../components/container/Container";
 // import ImagePicker from "../../components/imagePicker";
 import Title from "../../components/title";
-import "./__signUp.scss";
+import "./__signIn.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, login } from "../../store/actions/userAction";
 import { useAlert } from "react-alert";
+import { Link } from "react-router-dom";
 
-const SignUp = () => {
+const SignIn = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
   const { error, loading } = useSelector((state) => state.user);
-  console.log(error?.errors);
 
   const [user, setUser] = useState({
-    email: "",
+    number: "",
     password: "",
   });
 
@@ -24,21 +24,21 @@ const SignUp = () => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
-  const { email, password } = user;
+  const { number, password } = user;
 
   const handleClick = async (e) => {
     e.preventDefault();
 
     const myForm = {
-      email,
+      number,
       password,
     };
     dispatch(login(myForm));
   };
 
   useEffect(() => {
-    if (error?.errors) {
-      alert.error(error?.errors);
+    if (error) {
+      alert.error(error);
       dispatch(clearErrors());
     }
     // dispatch(getProduct());
@@ -46,36 +46,42 @@ const SignUp = () => {
 
   return (
     <>
-      <div className="signUpBanner"></div>
-      <Container className="signUp">
-        <form onSubmit={handleClick} className="signUp__form">
-          <Title className="signUp__form__title">Sign In</Title>
-          {/* <input className="signUp__input" type="email" placeholder="Email" /> */}
+      <div className="signInBanner"></div>
+      <Container className="signIn">
+        <form onSubmit={handleClick} className="signIn__form">
+          <Title className="signIn__form__title">Sign In</Title>
+          {/* <input className="signIn__input" type="" placeholder="Email" /> */}
           <input
-            className="signUp__input"
-            type="emial"
-            placeholder="Email"
-            name="email"
-            value={email}
+            className="signIn__input"
+            type="number"
+            placeholder="Mobile Number"
+            name="number"
+            value={number}
             onChange={loginDataChange}
           />
           <input
-            className="signUp__input"
+            className="signIn__input"
             type="password"
             placeholder="Password"
             name="password"
             value={password}
             onChange={loginDataChange}
           />
+          <div className="swipPageBtnContainer">
+            New in this site, Need a new account?{" "}
+            <Link className="swipPageBtn" to="/sign-up">
+              Sign up
+            </Link>
+          </div>
           <input
             style={{
               background: "#05be71",
               border: "1px solid #05be71",
-              // marginTop: "3rem",
+              cursor: "pointer",
               color: "#fff",
             }}
             value={loading ? "Loading..." : "Submit"}
-            className="signUp__input"
+            className="signIn__input"
             type="submit"
           />
         </form>
@@ -84,4 +90,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;

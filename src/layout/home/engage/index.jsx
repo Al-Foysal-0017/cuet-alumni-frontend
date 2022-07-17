@@ -3,6 +3,7 @@ import TSCImg from "../../../assets/img/TSC.JPG";
 import BigButton from "../../../components/bigButton";
 import Subtitle from "../../../components/subtitle";
 import Title from "../../../components/title";
+import ImageSetter from "./imageLoader/imageLoader";
 import "./__engage.scss";
 
 const Enagage = () => {
@@ -18,7 +19,7 @@ const Enagage = () => {
         <BigButton name="Learn More" link="" />
       </div>
       <div className="enagage__right">
-        <img src={TSCImg} alt="" />
+        <ImageSetter src={TSCImg} className="" />
       </div>
     </div>
   );

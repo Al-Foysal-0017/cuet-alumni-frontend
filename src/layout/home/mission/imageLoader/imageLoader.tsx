@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SmallLoader from "../components/smLoader/index";
+import "./__imageLoader.scss";
 
 interface IProps {
   src: any;
@@ -21,7 +21,7 @@ const ImageSetter = React.memo(({ src, className }: IProps) => {
   return (
     <>
       {loading ? (
-        <SmallLoader />
+        <div className="homeMissionLoader" />
       ) : (
         <img src={currentSrc} alt="" className={className} />
       )}

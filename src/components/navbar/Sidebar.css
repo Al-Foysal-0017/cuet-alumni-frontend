@@ -9,6 +9,16 @@
   font-weight: 600;
 }
 
+.sidebarAuth {
+  padding-top: 2rem;
+}
+.sidebarAuth-avatar {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
 .sidebar-link {
   font-size: 18px;
   cursor: pointer;
@@ -19,20 +29,27 @@
 .SidebarItems {
   list-style-type: none;
   padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .SidebarItem {
   /* padding: 3px 0; */
   /* padding-left: 1rem; */
   padding-top: 1rem;
+  font-weight: 500;
 }
 
 .SidebarItemsBottom {
   padding-top: 5rem;
   /* padding-bottom: 2rem; */
+  /* background: #fff; */
   display: flex;
   align-items: center;
   /* justify-content: space-between; */
   /* border: 1px solid #000; */
   font-weight: 500;
   font-size: 18px;
+  display: flex;
+  justify-content: center;
 }

@@ -23,6 +23,12 @@
   /* padding-top: 10px; */
 }
 
+.logoutBtn {
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+}
+
 .adminTopbarLogo {
   display: flex;
   justify-content: center;
@@ -33,6 +39,12 @@
 
 @media (min-width: 1240px) {
   .HeaderHamburger {
+    display: none;
+  }
+}
+
+@media (max-width: 1239px) {
+  .logoutBtn {
     display: none;
   }
 }

@@ -3,8 +3,14 @@ import "./style/Topbar.css";
 import { Turn as Hamburger } from "hamburger-react";
 import Container from "../container/Container";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/actions/userAction";
 
 const Topbar = ({ sideNavOpen, setSideNavOpen }) => {
+  const dispatch = useDispatch();
+  const logoutSubmit = () => {
+    dispatch(logout());
+  };
   return (
     <>
       <div className="HeaderContainer">
@@ -19,7 +25,9 @@ const Topbar = ({ sideNavOpen, setSideNavOpen }) => {
             </Link>
 
             <div className="HeaderRight">
-              <span style={{ fontWeight: "500" }}>Logout</span>
+              <span className="logoutBtn" onClick={logoutSubmit}>
+                Logout
+              </span>
               {/* <div>
               <img
                 style={{

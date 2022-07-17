@@ -31,7 +31,7 @@ const Sidebar = ({ sideNavOpen }) => {
     },
     {
       name: "All Events",
-      link: "/",
+      link: "/admin/all-events",
     },
     {
       name: "All Stories",
@@ -67,10 +67,8 @@ const Sidebar = ({ sideNavOpen }) => {
           <div className="ListContainerAdminTitle">Create & Post</div>
           <ul className="adminSidebarUnorderList">
             {dataForCreate.map((item, index) => (
-              <Link to="/admin/all-requests">
-                <li key={index} className="adminSidebarList">
-                  {item.name}
-                </li>
+              <Link key={index} to="/admin/all-requests">
+                <li className="adminSidebarList">{item.name}</li>
               </Link>
             ))}
           </ul>
@@ -80,9 +78,9 @@ const Sidebar = ({ sideNavOpen }) => {
           <div className="ListContainerAdminTitle">Visualize & Edit</div>
           <ul className="adminSidebarUnorderList">
             {dataForShow.map((item, index) => (
-              <li key={index} className="adminSidebarList">
-                {item.name}
-              </li>
+              <Link key={index} to={item.link}>
+                <li className="adminSidebarList">{item.name}</li>
+              </Link>
             ))}
           </ul>
         </div>

@@ -1,4 +1,4 @@
-import jwt_decode from "jwt-decode";
+// import jwt_decode from "jwt-decode";
 import {
   LOGIN_REQUEST,
   LOGIN_FAIL,
@@ -40,45 +40,49 @@ import {
   USER_DETAILS_SUCCESS,
   USER_DETAILS_FAIL,
   CLEAR_ERRORS,
-  ACTIVATION_REQUEST,
-  ACTIVATION_SUCCESS,
-  ACTIVATION_FAIL,
+  // ACTIVATION_REQUEST,
+  // ACTIVATION_SUCCESS,
+  // ACTIVATION_FAIL,
+  // CLEAR_MESSAGE,
+  USER_ROLE_REQUEST,
+  USER_ROLE_SUCCESS,
+  USER_ROLE_FAIL,
 } from "../types/userConstants.js";
 
-const initState = {
-  loading: false,
-  error: "",
-  token: "",
-  user: "",
-};
+// const initState = {
+//   loading: false,
+//   error: "",
+//   token: "",
+//   user: "",
+//   message: null,
+// };
 
-const verifyToken = (token) => {
-  const decodeToken = jwt_decode(token);
-  const expiresIn = new Date(decodeToken.exp * 1000);
-  if (new Date() > expiresIn) {
-    localStorage.removeItem("token");
-    return null;
-  } else {
-    return decodeToken;
-  }
-};
+// const verifyToken = (token) => {
+//   const decodeToken = jwt_decode(token);
+//   const expiresIn = new Date(decodeToken.exp * 1000);
+//   if (new Date() > expiresIn) {
+//     localStorage.removeItem("token");
+//     return null;
+//   } else {
+//     return decodeToken;
+//   }
+// };
 
-const token = localStorage.getItem("token");
+// const token = localStorage.getItem("token");
 
-if (token) {
-  const decoded = verifyToken(token);
-  if (decoded) {
-    initState.token = token;
-    initState.user = decoded;
-  }
-}
+// if (token) {
+//   const decoded = verifyToken(token);
+//   if (decoded) {
+//     initState.token = token;
+//     initState.user = decoded;
+//   }
+// }
 
-export const userReducer = (state = initState, action) => {
+export const userReducer = (state = { user: {} }, action) => {
   switch (action.type) {
     case LOGIN_REQUEST:
     case REGISTER_USER_REQUEST:
     case LOAD_USER_REQUEST:
-    case ACTIVATION_REQUEST:
       return {
         loading: true,
         isAuthenticated: false,
@@ -86,17 +90,14 @@ export const userReducer = (state = initState, action) => {
     case LOGIN_SUCCESS:
     case REGISTER_USER_SUCCESS:
     case LOAD_USER_SUCCESS:
-    case ACTIVATION_SUCCESS: {
-      const decodedUser = verifyToken(action.payload);
       return {
         ...state,
         loading: false,
         isAuthenticated: true,
-        user: decodedUser,
+        user: action.payload,
       };
-    }
+
     case LOGOUT_SUCCESS:
-      localStorage.removeItem("token");
       return {
         loading: false,
         user: null,
@@ -104,7 +105,6 @@ export const userReducer = (state = initState, action) => {
       };
     case LOGIN_FAIL:
     case REGISTER_USER_FAIL:
-    case ACTIVATION_FAIL:
       return {
         ...state,
         loading: false,
@@ -290,6 +290,38 @@ export const userDetailsReducer = (state = { user: {} }, action) => {
       };
 
     case USER_DETAILS_FAIL:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const userRoleReducer = (state = { role: "" }, action) => {
+  switch (action.type) {
+    case USER_ROLE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case USER_ROLE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        role: action.payload,
+      };
+
+    case USER_ROLE_FAIL:
       return {
         ...state,
         loading: false,

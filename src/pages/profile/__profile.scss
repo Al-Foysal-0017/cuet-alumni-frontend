@@ -1,0 +1,238 @@
+.profile {
+  margin-top: 7rem;
+  margin-bottom: 5rem;
+  // min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  // background: red;
+
+  &__left {
+    padding-right: 1rem;
+    display: flex;
+    flex-direction: column;
+
+    img {
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+    }
+
+    button {
+      margin-top: 2rem;
+      border: none;
+      background: tomato;
+      color: #fff;
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.5s ease-in-out;
+
+      &:hover {
+        background: rgb(234, 58, 27);
+      }
+    }
+
+    &__link {
+      margin-top: 1rem;
+      border: none;
+      background: #05be71;
+      color: #fff;
+      padding: 10px;
+      cursor: pointer;
+      transition: all 0.5s ease-in-out;
+      text-align: center;
+
+      &:hover {
+        background: #039c5c;
+      }
+    }
+  }
+  &__right {
+    padding-left: 1rem;
+    &__top {
+      &__name {
+        font-size: 52px;
+        font-weight: 800;
+      }
+      &__id {
+        font-size: 36px;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.profileDetails {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-end;
+  margin-bottom: 7rem;
+
+  &__contr {
+    padding: 1rem 0;
+  }
+
+  &__title {
+    font-size: 24px;
+    color: gray;
+  }
+
+  &__value {
+    font-size: 32px;
+    font-weight: 600;
+    padding-top: 8px;
+  }
+}
+
+@media (max-width: 840px) {
+  .profile {
+    // margin-top: 7rem;
+    // margin-bottom: 5rem;
+    // // min-height: 100vh;
+    // display: flex;
+    // align-items: center;
+    // justify-content: space-between;
+    // // background: red;
+    flex-direction: column;
+
+    &__left {
+      padding-right: 0;
+      padding-bottom: 2rem;
+      // display: flex;
+      // flex-direction: column;
+
+      img {
+        // width: 250px;
+        // height: 250px;
+        // border-radius: 50%;
+      }
+
+      button {
+        // margin-top: 2rem;
+        // border: none;
+        // background: tomato;
+        // color: #fff;
+        // padding: 10px;
+        // cursor: pointer;
+        // transition: all 0.5s ease-in-out;
+
+        &:hover {
+          // background: rgb(234, 58, 27);
+        }
+      }
+    }
+    &__right {
+      padding-left: 0;
+      text-align: center;
+      &__top {
+        &__name {
+          // font-size: 52px;
+          // font-weight: 800;
+        }
+        &__id {
+          // font-size: 36px;
+          // font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .profileDetails {
+    // display: flex;
+    // flex-direction: column;
+    // align-content: flex-end;
+    // margin-bottom: 7rem;
+
+    &__contr {
+      // padding: 1rem 0;
+    }
+
+    &__title {
+      // font-size: 24px;
+      // color: gray;
+    }
+
+    &__value {
+      // font-size: 32px;
+      // font-weight: 600;
+      // padding-top: 8px;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .profile {
+    // margin-top: 7rem;
+    // margin-bottom: 5rem;
+    // // min-height: 100vh;
+    // display: flex;
+    // align-items: center;
+    // justify-content: space-between;
+    // // background: red;
+    // flex-direction: column;
+
+    &__left {
+      // padding-right: 0;
+      // padding-bottom: 2rem;
+      // display: flex;
+      // flex-direction: column;
+
+      img {
+        width: 180px;
+        height: 180px;
+        // border-radius: 50%;
+      }
+
+      button {
+        // margin-top: 2rem;
+        // border: none;
+        // background: tomato;
+        // color: #fff;
+        // padding: 10px;
+        // cursor: pointer;
+        // transition: all 0.5s ease-in-out;
+
+        &:hover {
+          // background: rgb(234, 58, 27);
+        }
+      }
+    }
+    &__right {
+      // padding-left: 0;
+      // text-align: center;
+      &__top {
+        &__name {
+          // font-size: 52px;
+          font-size: 5vmax;
+          // font-weight: 800;
+        }
+        &__id {
+          font-size: 4vmax;
+          // font-weight: 600;
+        }
+      }
+    }
+  }
+
+  .profileDetails {
+    // display: flex;
+    // flex-direction: column;
+    // align-content: flex-end;
+    // margin-bottom: 7rem;
+
+    &__contr {
+      // padding: 1rem 0;
+    }
+
+    &__title {
+      font-size: 3vmax;
+      // color: gray;
+    }
+
+    &__value {
+      font-size: 4vmax;
+      // font-weight: 600;
+      // padding-top: 8px;
+    }
+  }
+}

@@ -18,25 +18,46 @@ const MobileNav = () => {
       <div className="navbarTop">
         {user ? (
           <div className="navbarTopItem">
-            <Link
-              style={{
-                fontWeight: "600",
-                color: pathname === "/admin" ? "#05BE71" : "#000",
-              }}
-              to="/admin/dashboard"
-            >
-              Admin
-            </Link>
-            <span style={{ padding: "0 8px", fontWeight: "bold" }}>||</span>
-            <Link
-              style={{
-                fontWeight: "600",
-                color: pathname === "/profile" ? "#05BE71" : "#000",
-              }}
-              to="/profile"
-            >
-              Profile
-            </Link>
+            {user.role === "admin" && (
+              <>
+                <Link
+                  style={{
+                    fontWeight: "600",
+                    // color: pathname === "/admin" ? "#05BE71" : "#000",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  to="/admin/dashboard"
+                >
+                  Admin Panel
+                  <img
+                    className="navbarTopItem-avatar"
+                    src={user?.avatar}
+                    alt=""
+                  />
+                </Link>
+
+                {/* <span style={{ padding: "0 8px", fontWeight: "bold" }}>||</span> */}
+              </>
+            )}
+            {user.role !== "admin" && (
+              <Link
+                style={{
+                  fontWeight: "600",
+                  // color: pathname === "/profile" ? "#05BE71" : "#000",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+                to="/profile"
+              >
+                {user?.firstName + " " + user?.lastName}
+                <img
+                  className="navbarTopItem-avatar"
+                  src={user?.avatar}
+                  alt=""
+                />
+              </Link>
+            )}
           </div>
         ) : (
           <div className="navbarTopItem">

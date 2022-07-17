@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { SliderData } from "./SliderData";
 import { HiArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 import "./imageSlider.css";
+import ImageLoader from "./imageLoader/imageLoader";
+// import ImageSetter from "./imageLoader";
 
 const ImageSlider = ({ slides }: any) => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -95,12 +97,13 @@ const ImageSlider = ({ slides }: any) => {
             >
               {index === currentSlide && (
                 <div style={{ display: "flex" }}>
-                  <img
+                  {/* <img
                     style={{ width: "100%" }}
                     src={slide.image}
                     alt="slideimage"
                     className="image"
-                  />
+                  /> */}
+                  <ImageLoader src={slide.image} className="image" />
                 </div>
               )}
             </div>

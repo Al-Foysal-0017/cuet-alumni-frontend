@@ -1,8 +1,8 @@
 .upcomming {
   background: #f4f4f4;
-  height: 800px;
+  // height: 900px;
   padding-top: 7rem;
-
+  padding-bottom: 7rem;
   &__cards {
     display: flex;
     justify-content: space-between;
@@ -65,7 +65,6 @@
 
 @media (max-width: 1024px) {
   .upcomming {
-    padding-bottom: 7rem;
     height: auto;
 
     &__cards {

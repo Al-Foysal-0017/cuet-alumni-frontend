@@ -1,3 +1,5 @@
+// "proxy": "http://192.168.1.100:5000"
+
 import {
   LOGIN_REQUEST,
   LOGIN_FAIL,
@@ -31,13 +33,21 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAIL,
-  // USER_DETAILS_REQUEST,
-  // USER_DETAILS_SUCCESS,
-  // USER_DETAILS_FAIL,
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
+  USER_DETAILS_FAIL,
   CLEAR_ERRORS,
   ACTIVATION_REQUEST,
   ACTIVATION_SUCCESS,
   ACTIVATION_FAIL,
+  CLEAR_MESSAGE,
+  // USER_ROLE_REQUEST,
+  // USER_ROLE_SUCCESS,
+  // USER_DETAILS_FAIL,
+  LOAD_USER_REQUEST,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAIL,
+  LOGOUT_FAIL,
 } from "../types/userConstants";
 import axios from "axios";
 // import jwt_decode from "jwt-decode";
@@ -50,53 +60,77 @@ export const login = (loginData) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "application/json" } };
 
-    const { data } = await axios.post(`/api/login`, loginData, config);
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API_URL}/signin`,
+      loginData,
+      config
+    );
 
-    // authenticate(data, () => {
-    //   data.user
-    //   // isAuth() && isAuth().role === "admin"
-    //   //   ? history.push("/admin")
-    //   //   : history.push("/private");
-    //   // toast.success(`Hey ${res.data.user.name}, Welcome back!`);
-    // });
+    dispatch({ type: LOGIN_SUCCESS, payload: data.user });
 
-    dispatch({ type: LOGIN_SUCCESS, payload: data.token });
-
-    // console.log("DATA:>>", data.token);
-    // const decodeToken = jwt_decode(data.token);
-    // console.log("decodeToken::>>", decodeToken);
-    localStorage.setItem("token", data.token);
-    // console.log(data.token);
+    // localStorage.setItem("token", data.token);
+    window.location.reload();
   } catch (error) {
-    dispatch({ type: LOGIN_FAIL, payload: error.response.data });
+    console.log(error.response);
+    dispatch({
+      type: LOGIN_FAIL,
+      payload:
+        error.response.data.message || "Something went wrong. Try again.",
+    });
   }
 };
 
-// Register
-export const register =
-  // (userData: FormData) =>
+// SignUp
+export const signup = (userData) => async (dispatch) => {
+  try {
+    dispatch({ type: REGISTER_USER_REQUEST });
 
+    const config = { headers: { "Content-Type": "application/json" } };
 
-    (userData) =>
-    // async (dispatch: (arg0: { type: string; payload?: any }) => void) => {
-    async (dispatch) => {
-      try {
-        dispatch({ type: REGISTER_USER_REQUEST });
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API_URL}/signup/verify`,
+      userData,
+      config
+    );
+    // console.log(data);
+    dispatch({ type: REGISTER_USER_SUCCESS, payload: data });
+    // localStorage.setItem("token", data.token);
+    window.location.reload();
+  } catch (error) {
+    // console.log(error.response.data);
+    dispatch({
+      type: REGISTER_USER_FAIL,
+      payload: error.response.data || "Something went wrong. Try again.",
+    });
+  }
+};
 
-        const config = { headers: { "Content-Type": "application/json" } };
+// Update Profile
+export const updateProfile = (userData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_USER_REQUEST });
 
-        // const config = { headers: { "Content-Type": "multipart/form-data" } };
+    const config = { headers: { "Content-Type": "application/json" } };
 
-        const { data } = await axios.post(`/api/register`, userData, config);
-        localStorage.setItem("token", data.token);
-        dispatch({ type: REGISTER_USER_SUCCESS, payload: data.token });
-      } catch (error) {
-        dispatch({
-          type: REGISTER_USER_FAIL,
-          payload: error.response.data,
-        });
-      }
-    };
+    const { data } = await axios.put(
+      `${process.env.REACT_APP_API_URL}/profile/update`,
+      userData,
+      config
+    );
+    // console.log(data);
+    dispatch({
+      type: UPDATE_USER_SUCCESS,
+      payload: data,
+    });
+    dispatch(loadUser());
+  } catch (error) {
+    dispatch({
+      type: UPDATE_USER_FAIL,
+      payload:
+        error.response.data.message || "Something went wrong. Try again.",
+    });
+  }
+};
 
 //Activation User
 export const activation = (token) => async (dispatch) => {
@@ -105,7 +139,11 @@ export const activation = (token) => async (dispatch) => {
 
     const config = { headers: { "Content-Type": "application/json" } };
 
-    const { data } = await axios.post(`/api/activation`, { token }, config);
+    const { data } = await axios.post(
+      `${process.env.REACT_APP_API_URL}/activation`,
+      { token },
+      config
+    );
     dispatch({ type: ACTIVATION_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: ACTIVATION_FAIL, payload: error.response.data });
@@ -113,23 +151,38 @@ export const activation = (token) => async (dispatch) => {
 };
 
 // Load User
-// export const loadUser = () => async (dispatch) => {
-//   try {
-//     dispatch({ type: LOAD_USER_REQUEST });
+export const loadUser = () => async (dispatch) => {
+  try {
+    dispatch({ type: LOAD_USER_REQUEST });
 
-//     const { data } = await axios.get(`/api/v1/me`);
+    const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/me`);
 
-//     dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
-//   } catch (error) {
-//     dispatch({ type: LOAD_USER_FAIL, payload: error.response.data.message });
-//   }
-// };
+    // console.log("FromLoadUser:>>>>", data.user);
 
-// Logout User
-export const logout = () => (dispatch) => {
-  dispatch({ type: LOGOUT_SUCCESS });
+    dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
+  } catch (error) {
+    dispatch({
+      type: LOAD_USER_FAIL,
+      payload:
+        error.response.data.message || "Something went wrong. Try again.",
+    });
+  }
 };
 
+// Logout User
+export const logout = () => async (dispatch) => {
+  try {
+    await axios.get(`${process.env.REACT_APP_API_URL}/logout`);
+
+    dispatch({ type: LOGOUT_SUCCESS });
+  } catch (error) {
+    dispatch({
+      type: LOGOUT_FAIL,
+      payload:
+        error.response.data.message || "Something went wrong. Try again.",
+    });
+  }
+};
 // Update Profile
 // export const updateProfile = (userData) => async (dispatch) => {
 //   try {
@@ -212,53 +265,68 @@ export const logout = () => (dispatch) => {
 
 // get All Users
 export const getAllUsers = () => async (dispatch, getState) => {
-  const {
-    user: { token },
-  } = getState();
   try {
+    // const {
+    //   user: { token },
+    // } = getState();
+    // console.log("tokenFromUSERS:>>", user);
     dispatch({ type: ALL_USERS_REQUEST });
-    const { data } = await axios.get(`/api/admin/users/request`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/admin/users/request`
+      // {
+      //   headers: {
+      //     Authorization: `Bearer ${token}`,
+      //   },
+      // }
+    );
+    // console.log(data.users);
 
     dispatch({ type: ALL_USERS_SUCCESS, payload: data.users });
   } catch (error) {
-    dispatch({ type: ALL_USERS_FAIL, payload: error.response.data.message });
+    // console.log("errorFromUSERS:>>", error);
+    dispatch({ type: ALL_USERS_FAIL, payload: error.response.data });
   }
 };
 
 // get  User Details
-// export const getUserDetails = (id) => async (dispatch) => {
-//   try {
-//     dispatch({ type: USER_DETAILS_REQUEST });
-//     const { data } = await axios.get(`/api/v1/admin/user/${id}`);
+export const getUserDetails = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: USER_DETAILS_REQUEST });
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_API_URL}/admin/user/${id}`
+    );
 
-//     dispatch({ type: USER_DETAILS_SUCCESS, payload: data.user });
-//   } catch (error) {
-//     dispatch({ type: USER_DETAILS_FAIL, payload: error.response.data.message });
-//   }
-// };
+    console.log(data);
+
+    dispatch({ type: USER_DETAILS_SUCCESS, payload: data.user });
+  } catch (error) {
+    console.log(error);
+    dispatch({ type: USER_DETAILS_FAIL, payload: error.response.data.message });
+  }
+};
 
 // Update User
-export const updateUser = (id, userData) => async (dispatch, getState) => {
-  const {
-    user: { token },
-  } = getState();
+export const updateUserRole = (id, userData) => async (dispatch, getState) => {
+  // const {
+  //   user: { token },
+  // } = getState();
   try {
     dispatch({ type: UPDATE_USER_REQUEST });
 
     const config = {
       headers: {
-        Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
     };
 
-    const { data } = await axios.put(`/api/admin/user/${id}`, userData, config);
+    const { data } = await axios.put(
+      `${process.env.REACT_APP_API_URL}/admin/user/${id}`,
+      userData,
+      config
+    );
 
     dispatch({ type: UPDATE_USER_SUCCESS, payload: data.success });
+    dispatch(getAllUsers());
   } catch (error) {
     dispatch({
       type: UPDATE_USER_FAIL,
@@ -266,6 +334,35 @@ export const updateUser = (id, userData) => async (dispatch, getState) => {
     });
   }
 };
+
+// Get Role of User
+// export const getRoleOfUser = (id) => async (dispatch, getState) => {
+//   const {
+//     user: { token },
+//   } = getState();
+//   try {
+//     dispatch({ type: USER_ROLE_REQUEST });
+
+//     const config = {
+//       headers: {
+//         Authorization: `Bearer ${token}`,
+//         "Content-Type": "application/json",
+//       },
+//     };
+
+//     const { data } = await axios.get(
+//       `${process.env.REACT_APP_API_URL}/role/user/${id}`,
+//       config
+//     );
+
+//     dispatch({ type: USER_ROLE_SUCCESS, payload: data.role });
+//   } catch (error) {
+//     dispatch({
+//       type: USER_DETAILS_FAIL,
+//       payload: error.response.data.message,
+//     });
+//   }
+// };
 
 // Delete User
 // export const deleteUser = (id) => async (dispatch) => {
@@ -286,4 +383,9 @@ export const updateUser = (id, userData) => async (dispatch, getState) => {
 // Clearing Errors
 export const clearErrors = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
+};
+
+// Clearing Message
+export const clearMessage = () => async (dispatch) => {
+  dispatch({ type: CLEAR_MESSAGE });
 };

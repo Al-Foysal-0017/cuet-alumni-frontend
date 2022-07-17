@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavAndSidebar from "./components/navbar/NavAndSidebar";
 import { Route, Routes, useLocation } from "react-router-dom";
 import "./_app.scss";
@@ -17,14 +17,26 @@ import ScrollToTopBtn from "./components/scrollToTopBtn";
 import Profile from "./pages/profile";
 import Admin from "./pages-admin/dashboard";
 import AllRequestsAdmin from "./pages-admin/allRequests";
-import Activation from "./pages/activation";
-import axios from "axios";
+// import Activation from "./pages/activation";
+// import axios from "axios";
 import ProtectedRoute from "./components/private/ProtectedRoute";
 import PublicRoute from "./components/private/PublicRoute";
 import AdminRoute from "./components/private/AdminRoute";
 
 import { positions, transitions, Provider as AlertProvider } from "react-alert";
 import AlertTemplate from "react-alert-template-basic";
+import { useDispatch } from "react-redux";
+import { getAllEvents } from "./store/actions/eventAction";
+import AllEventsAdmin from "./pages-admin/allEvents";
+import ApprovalMsg from "./components/approvalMsg";
+import { loadUser } from "./store/actions/userAction";
+import OtpVerify from "./pages/signup/OtpVerify";
+// import SignUpAllData from "./pages/signup/SignUpAllData";
+import OtpPassword from "./pages/signup/SetOtpPassword";
+import UpdateProfile from "./pages/profileUpdate";
+import SetProfile from "./pages/signup/SetProfile";
+import ToSetProfileRoute from "./components/private/ToSetProfile";
+import UserDetails from "./pages-admin/userDetails";
 
 const options = {
   timeout: 5000,
@@ -37,27 +49,39 @@ const options = {
 };
 
 const App = () => {
-  // console.log("ABC:>>", user);
-
+  const dispatch = useDispatch();
   const { pathname } = useLocation();
+  // const { user } = useSelector((state) => state.user);
+  // console.log(user._id);
+
+  useEffect(() => {
+    dispatch(loadUser());
+  }, [dispatch]);
 
   React.useEffect(() => {
-    axios("/api/test").then((response) => {
-      if (response.status === 200) {
-        console.log("AXIOS CALL:", response.data);
-        console.log("Done");
-      } else {
-        console.log("There has some problem.");
-      }
-    });
-  }, []);
+    // axios(
+    //   `https://cuet-alumni-backend.vercel.app/api/role/user/${user._id}`
+    // ).then((response) => {
+    //   if (response.status === 200) {
+    //     console.log("AXIOS CALL:", response.data);
+    //   } else {
+    //     console.log("There has some problem.");
+    //   }
+    // });
+    // dispatch(getRoleOfUser(user._id));
+
+    dispatch(getAllEvents());
+  }, [dispatch]);
   return (
     <div>
       <AlertProvider template={AlertTemplate} {...options}>
         <>
+          {/* {user.role===""} */}
+          {pathname !== "/set/profile" && <ApprovalMsg />}
           <ScrollToTop />
           <ScrollToTopBtn />
           {pathname !== "/admin/dashboard" &&
+            pathname !== "/admin/all-events" &&
             pathname !== "/admin/all-requests" && <NavAndSidebar />}
           <Routes>
             <Route index element={<Home />} />
@@ -70,7 +94,7 @@ const App = () => {
                 </PublicRoute>
               }
             />
-            <Route path="users/activate/:token" element={<Activation />} />
+            {/* <Route path="users/activate/:token" element={<Activation />} /> */}
             {/* <Route path="sign-in" element={<SignIn />} /> */}
             <Route
               path="sign-in"
@@ -80,6 +104,17 @@ const App = () => {
                 </PublicRoute>
               }
             />
+            <Route path="signup/set/otp/password" element={<OtpPassword />} />
+            {/* <Route path="signup/otp/verify" element={<OtpVerify />} /> */}
+            <Route
+              path="signup/otp/verify"
+              element={
+                <ToSetProfileRoute>
+                  <OtpVerify />
+                </ToSetProfileRoute>
+              }
+            />
+            {/* <Route path="signup/update" element={<SignUpAllData />} /> */}
             <Route path="contact" element={<Contact />} />
             <Route path="stories" element={<Stories />} />
             <Route path="about" element={<About />} />
@@ -94,7 +129,22 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-            {/* <Route path="admin/dashboard" element={<Admin />} /> */}
+            <Route
+              path="profile/update"
+              element={
+                <ProtectedRoute>
+                  <UpdateProfile />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="set/profile"
+              element={
+                // <ProtectedRoute>
+                <SetProfile />
+                // </ProtectedRoute>
+              }
+            />
             <Route
               path="admin/dashboard"
               element={
@@ -103,6 +153,15 @@ const App = () => {
                 </AdminRoute>
               }
             />
+            <Route
+              path="/admin/user/details/:id"
+              element={
+                <AdminRoute>
+                  <UserDetails />
+                </AdminRoute>
+              }
+            />
+            {/* /admin/user/details/${row._id} */}
             {/* <Route path="admin/all-requests" element={<AllRequestsAdmin />} /> */}
             <Route
               path="admin/all-requests"
@@ -112,8 +171,17 @@ const App = () => {
                 </AdminRoute>
               }
             />
+            <Route
+              path="admin/all-events"
+              element={
+                <AdminRoute>
+                  <AllEventsAdmin />
+                </AdminRoute>
+              }
+            />
           </Routes>
           {pathname !== "/admin/dashboard" &&
+            pathname !== "/admin/all-events" &&
             pathname !== "/admin/all-requests" && <Footer />}
         </>
       </AlertProvider>

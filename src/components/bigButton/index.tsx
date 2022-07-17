@@ -1,11 +1,17 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./__bigButton.scss";
 
-const BigButton = ({ link, name, center = false }: any) => {
+const BigButton = ({ link, name, center = false, style }: any) => {
   return (
-    <div style={{ justifyContent: center ? "center" : "" }} className="big_btn">
-      <button>{name}</button>
-    </div>
+    <Link to={link}>
+      <div
+        style={{ justifyContent: center ? "center" : "" }}
+        className="big_btn"
+      >
+        <button>{name}</button>
+      </div>
+    </Link>
   );
 };
 
